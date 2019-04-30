@@ -1,0 +1,95 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.4.RELEASE'
+	id 'groovy'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+// to allow configuring idea to auto-download sources and javadocs
+apply plugin: 'idea'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	implementation 'org.codehaus.groovy:groovy'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+/* project settings */
+group = 'edu.hawaii.its'
+version = '0.0.0'
+
+// renaming 'build' directory to 'target' to workaround command-completion
+// collision with build.gradle
+buildDir = 'target'
+
+// default to running 'tasks'
+defaultTasks = ['tasks']
+
+description = """\
+grouper-hack
+
+thin shell around the official grouper client
+"""
+
+// compile java with jdk11 syntax, for jdk11 jvm
+sourceCompatibility = 11
+targetCompatibility = 11
+
+/* gradle wrapper config */
+wrapper { gradleVersion = '5.3.1' }
+
+/* groovy compiler config */
+def groovyJvmArgs = [
+  // enable assertions
+  '-enableassertions',
+  // suppress groovy-related access warnings
+  '--illegal-access=permit',
+  '--add-opens=java.base/java.lang=ALL-UNNAMED',
+  '--add-opens=java.base/java.lang.invoke=ALL-UNNAMED',
+  '--add-opens=java.base/java.lang.reflect=ALL-UNNAMED',
+  '--add-opens=java.base/java.util=ALL-UNNAMED',
+  '--add-opens=java.base/java.util.regex=ALL-UNNAMED',
+  '--add-opens=java.base/java.time=ALL-UNNAMED',
+  '--add-opens=java.base/java.time.chrono=ALL-UNNAMED',
+  '--add-opens=java.base/java.net=ALL-UNNAMED',
+  '--add-opens=java.base/java.io=ALL-UNNAMED',
+  '--add-opens=java.base/java.nio.charset=ALL-UNNAMED',
+  // logback-related
+  '--add-opens=java.base/java.security=ALL-UNNAMED',
+]
+tasks.withType(GroovyCompile) {
+  groovyJvmArgs.each {
+    options.forkOptions.jvmArgs << it
+  }
+}
+
+/* spring boot config */
+task removeLogfiles(type: Delete) {
+  description = 'Removes log files'
+  group = 'build'
+
+  //noinspection GroovyAssignabilityCheck
+  delete fileTree('target/logs')
+}
+bootRun {
+  // suppress groovy-related access warnings
+  jvmArgs = groovyJvmArgs
+
+  // allow live reloading of changed resources
+  sourceResources sourceSets.main
+
+  dependsOn removeLogfiles
+}
+
+/* intellij idea config */
+idea {
+  module {
+    downloadJavadoc = true
+    downloadSources = true
+  }
+}

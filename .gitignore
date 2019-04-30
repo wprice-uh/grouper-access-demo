@@ -1,0 +1,23 @@
+#
+# gradle CLI
+## cache
+/.gradle/
+## build output
+/target/
+## wrapper
+!/gradlew
+!/gradle/wrapper/gradle-wrapper.jar
+/gradlew.bat
+
+#
+# direnv
+/.direnv/
+
+#
+# intellij
+## user-specific settings
+/.idea/**/workspace.xml
+/.idea/**/tasks.xml
+/.idea/uiDesigner.xml
+## idea gradle
+/out/
