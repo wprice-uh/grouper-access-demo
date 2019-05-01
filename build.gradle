@@ -1,8 +1,8 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.4.RELEASE'
-	id 'groovy'
 }
 
+apply plugin: 'groovy'
 apply plugin: 'io.spring.dependency-management'
 
 // to allow configuring idea to auto-download sources and javadocs
@@ -13,8 +13,12 @@ repositories {
 }
 
 dependencies {
+	implementation 'org.codehaus.groovy:groovy-all:2.5.5'
+
 	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.codehaus.groovy:groovy'
+	implementation 'org.springframework:spring-web'
+	implementation 'com.fasterxml.jackson.core:jackson-databind'
+
   implementation 'edu.internet2.middleware.grouper:grouperClient:2.4.0'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'

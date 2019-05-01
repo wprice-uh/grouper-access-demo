@@ -21,3 +21,7 @@
 /.idea/uiDesigner.xml
 ## idea gradle
 /out/
+
+#
+# misc
+/target/logs
