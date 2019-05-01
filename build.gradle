@@ -19,8 +19,6 @@ dependencies {
 	implementation 'org.springframework:spring-web'
 	implementation 'com.fasterxml.jackson.core:jackson-databind'
 
-  implementation 'edu.internet2.middleware.grouper:grouperClient:2.4.0'
-
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
@@ -38,7 +36,7 @@ defaultTasks = ['tasks']
 description = """\
 grouper-hack
 
-thin shell around the official grouper client
+working example of using RestTemplate to query grouper
 """
 
 // compile java with jdk11 syntax, for jdk11 jvm
