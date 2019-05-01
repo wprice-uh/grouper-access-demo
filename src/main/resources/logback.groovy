@@ -22,7 +22,7 @@ root(INFO, ['CONSOLE', 'LOGFILE'])
 
 // override log levels
 logger('edu.hawaii', DEBUG)
-logger('org.springframework.security', DEBUG)
+logger('org.springframework.web', DEBUG)
 
 // enable debugging for web components
 logger('web', DEBUG)
