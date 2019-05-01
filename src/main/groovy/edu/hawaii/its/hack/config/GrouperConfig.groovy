@@ -1,13 +1,16 @@
 package edu.hawaii.its.hack.config
 
+import java.nio.charset.StandardCharsets
 import java.util.function.Supplier
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.web.client.RestTemplateBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import org.springframework.http.MediaType
 import org.springframework.http.client.ClientHttpRequestFactory
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.client.ResponseErrorHandler
 import org.springframework.web.client.RestTemplate
 
@@ -32,7 +35,15 @@ class GrouperConfig {
         .basicAuthentication(grouperUsername, grouperPassword)
         .errorHandler(grouperErrorHandler())
         .requestFactory(grouperRequestFactorySupplier())
+        .additionalMessageConverters(grouperConverter())
         .build()
+  }
+
+  @Bean
+  MappingJackson2HttpMessageConverter grouperConverter() {
+    new MappingJackson2HttpMessageConverter().tap {
+      supportedMediaTypes = [new MediaType("text", "x-json", StandardCharsets.UTF_8)]
+    }
   }
 
   @Bean

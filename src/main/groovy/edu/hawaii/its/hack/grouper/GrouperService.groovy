@@ -3,8 +3,11 @@ package edu.hawaii.its.hack.grouper
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.http.RequestEntity
+import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
+
+import edu.hawaii.its.hack.grouper.json.GrouperResult
 
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
@@ -45,20 +48,22 @@ class GrouperService {
     JsonOutput.toJson(queryMap)
   }
 
-  RequestEntity<String> stemEntity(String uhuuid, String stemName, boolean recurse) {
+  RequestEntity<GrouperResult> stemEntity(String uhuuid, String stemName, boolean recurse) {
     String queryJson = stemQuery(uhuuid, stemName, recurse)
 
     URI subjectUri = new URL("${grouperUrl}/v2_2_200/subjects").toURI()
+
     RequestEntity
         .post(subjectUri)
         .contentType(new MediaType('text', 'x-json'))
-        .body(queryJson)
+        .body(queryJson) as RequestEntity<GrouperResult>
   }
 
-  String querySubtree(String uhuuid, String stem, boolean recurse) {
-    RequestEntity<String> rolesEntity = stemEntity(uhuuid, stem, recurse)
+  GrouperResult querySubtree(String uhuuid, String stem, boolean recurse) {
+    RequestEntity<GrouperResult> rolesEntity = stemEntity(uhuuid, stem, recurse)
 
-    grouperTemplate.exchange(rolesEntity, String)
+    ResponseEntity<GrouperResult> response = grouperTemplate.exchange(rolesEntity, GrouperResult) as ResponseEntity<GrouperResult>
+    response.getBody()
   }
 }
 
