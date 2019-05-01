@@ -7,6 +7,8 @@ import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
+import edu.hawaii.its.hack.grouper.GrouperService
+
 import groovy.util.logging.Slf4j
 
 @Slf4j
@@ -15,32 +17,39 @@ class HackApplication implements ApplicationRunner {
   @Value("\${test.admin.uhuuid}")
   String testAdminUhuuid
 
+  @Value("\${test.irrelevant.uhuuid}")
+  String testExistentIrrelevantUhuuid
+
   static void main(String[] args) {
     SpringApplication.run(HackApplication, args)
   }
+
+  // UNF: need to gather timing data to decide between queryAll and querySeparate
+  // UNF: need to actively investigate pooling, especially for the two-query version
+
+  // UNF: need to intentionally create some errors and then write code to handle (converting) them
 
   @Override
   void run(ApplicationArguments args) throws Exception {
     queryAllInSubtree()
     querySeparateSubtrees()
-    queryAllInSubtree()
-    querySeparateSubtrees()
+    queryBlankResult()
+
+    try {
+      queryNonexistentUser()
+    } catch( Exception e ) {
+      log.error( "exception for nonexistent", e )
+    }
+
+    try {
+      queryInvalid()
+    } catch( Exception e ) {
+      log.error( "exception for invalid", e )
+    }
   }
 
   @Autowired
   GrouperService grouperService
-
-  void querySeparateSubtrees() throws Exception {
-    String rolesStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:admin'
-    String formsStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:forms'
-
-    def rolesResult = grouperService.querySubtree(testAdminUhuuid, rolesStem, false)
-    def formsResult = grouperService.querySubtree(testAdminUhuuid, formsStem, false)
-    log.error "raw sep results: \n-----\n${rolesResult}\n-----\n${formsResult}\n-----\n"
-  }
-
-  // UNF: need to intentionally create some errors and then write code to handle (converting) them
-  // UNF: need to actively investigate pooling, especially for the two-query version
 
   void queryAllInSubtree() throws Exception {
     String allStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase'
@@ -49,4 +58,34 @@ class HackApplication implements ApplicationRunner {
     log.error "raw all results: \n-----\n${allResult}\n-----\n"
   }
 
+  void querySeparateSubtrees() throws Exception {
+    String rolesStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:roles'
+    String formsStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:forms'
+
+    def rolesResult = grouperService.querySubtree(testAdminUhuuid, rolesStem, false)
+    def formsResult = grouperService.querySubtree(testAdminUhuuid, formsStem, false)
+    log.error "raw sep results: \n-----\n${rolesResult}\n-----\n${formsResult}\n-----\n"
+  }
+
+  void queryBlankResult() throws Exception {
+    String allStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase'
+
+    def blankResult = grouperService.querySubtree(testExistentIrrelevantUhuuid, allStem, true)
+    log.error "raw blank results: \n-----\n${blankResult}\n-----\n"
+  }
+
+  void queryNonexistentUser() throws Exception {
+    String allStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase'
+    String nonexistentUhuuid = '00000000'
+
+    def blankResult = grouperService.querySubtree(nonexistentUhuuid, allStem, true)
+    log.error "raw blank results: \n-----\n${blankResult}\n-----\n"
+  }
+
+  void queryInvalid() throws Exception {
+    String allStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase'
+
+    String errResult = grouperService.querySubtree(null, allStem, true)
+    log.error "raw error results: \n-----\n${errResult}\n-----\n"
+  }
 }

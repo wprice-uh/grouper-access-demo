@@ -1,4 +1,4 @@
-package edu.hawaii.its.hack
+package edu.hawaii.its.hack.grouper
 
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
