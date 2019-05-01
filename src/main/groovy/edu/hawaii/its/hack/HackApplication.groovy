@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.util.StopWatch
 
 import edu.hawaii.its.hack.grouper.GrouperService
 
@@ -24,27 +25,48 @@ class HackApplication implements ApplicationRunner {
     SpringApplication.run(HackApplication, args)
   }
 
-  // UNF: need to gather timing data to decide between queryAll and querySeparate
   // UNF: need to actively investigate pooling, especially for the two-query version
 
   // UNF: need to intentionally create some errors and then write code to handle (converting) them
 
   @Override
   void run(ApplicationArguments args) throws Exception {
+    doEverything()
+
+    StopWatch allWatch = new StopWatch('queryAll')
+    StopWatch sepWatch = new StopWatch('querySeparate')
+
+    for (int i = 0; i < 10; ++i) {
+      allWatch.start("queryAll ${i}")
+      queryAllInSubtree()
+      allWatch.stop()
+    }
+
+    for (int i = 0; i < 10; ++i) {
+      sepWatch.start("querySeparate ${i}")
+      querySeparateSubtrees()
+      sepWatch.stop()
+    }
+
+    log.error allWatch.prettyPrint()
+    log.error sepWatch.prettyPrint()
+  }
+
+  void doEverything() {
     queryAllInSubtree()
     querySeparateSubtrees()
     queryBlankResult()
 
     try {
       queryNonexistentUser()
-    } catch( Exception e ) {
-      log.error( "exception for nonexistent", e )
+    } catch (Exception e) {
+      log.error("exception for nonexistent", e)
     }
 
     try {
       queryInvalid()
-    } catch( Exception e ) {
-      log.error( "exception for invalid", e )
+    } catch (Exception e) {
+      log.error("exception for invalid", e)
     }
   }
 
