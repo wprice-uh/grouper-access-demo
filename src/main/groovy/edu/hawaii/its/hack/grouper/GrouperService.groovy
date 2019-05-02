@@ -1,13 +1,17 @@
 package edu.hawaii.its.hack.grouper
 
+import java.nio.charset.StandardCharsets
+
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.http.RequestEntity
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
 
-import edu.hawaii.its.hack.grouper.json.GrouperResult
+import edu.hawaii.its.hack.grouper.json.GetGroupsResults
 
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
@@ -48,22 +52,28 @@ class GrouperService {
     JsonOutput.toJson(queryMap)
   }
 
-  RequestEntity<GrouperResult> stemEntity(String uhuuid, String stemName, boolean recurse) {
+  RequestEntity<String> stemEntity(String uhuuid, String stemName, boolean recurse) {
     String queryJson = stemQuery(uhuuid, stemName, recurse)
 
     URI subjectUri = new URL("${grouperUrl}/v2_2_200/subjects").toURI()
 
     RequestEntity
         .post(subjectUri)
-        .contentType(new MediaType('text', 'x-json'))
-        .body(queryJson) as RequestEntity<GrouperResult>
+        .contentType(new MediaType('text', 'x-json', StandardCharsets.UTF_8))
+        .body(queryJson)
   }
 
-  GrouperResult querySubtree(String uhuuid, String stem, boolean recurse) {
-    RequestEntity<GrouperResult> rolesEntity = stemEntity(uhuuid, stem, recurse)
+  GetGroupsResults querySubtree(String uhuuid, String stem, boolean recurse) {
+    RequestEntity<String> rolesEntity = stemEntity(uhuuid, stem, recurse)
 
-    ResponseEntity<GrouperResult> response = grouperTemplate.exchange(rolesEntity, GrouperResult)
-    response.getBody()
+    ResponseEntity<String> response = grouperTemplate.exchange(rolesEntity, String)
+    String rawBody = response.getBody()
+
+    ObjectMapper om = new ObjectMapper()
+    om.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false)
+    om.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true)
+
+    om.readValue(rawBody, GetGroupsResults)
   }
 }
 

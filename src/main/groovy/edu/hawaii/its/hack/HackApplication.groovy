@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.util.StopWatch
 
 import edu.hawaii.its.hack.grouper.GrouperService
-import edu.hawaii.its.hack.grouper.json.GrouperResult
+import edu.hawaii.its.hack.grouper.json.GetGroupsResults
 
 import groovy.util.logging.Slf4j
 
@@ -82,11 +82,11 @@ class HackApplication implements ApplicationRunner {
     String rolesStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:roles'
     String formsStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:forms'
 
-    GrouperResult rolesResult = grouperService.querySubtree(testAdminUhuuid, rolesStem, false)
+    GetGroupsResults rolesResult = grouperService.querySubtree(testAdminUhuuid, rolesStem, false)
     log.error "raw roles result: ${rolesResult}"
     log.error "raw roles dump: ${rolesResult.dump()}"
 
-    GrouperResult formsResult = grouperService.querySubtree(testAdminUhuuid, formsStem, false)
+    GetGroupsResults formsResult = grouperService.querySubtree(testAdminUhuuid, formsStem, false)
     log.error "raw forms result: ${formsResult}"
     log.error "raw forms dump: ${formsResult.dump()}"
   }
