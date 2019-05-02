@@ -32,7 +32,7 @@ class HackApplication implements ApplicationRunner {
 
   @Override
   void run(ApplicationArguments args) throws Exception {
-    querySeparateSubtrees()
+    queryRoles()
   }
 
   void timingRun(ApplicationArguments args) throws Exception {
@@ -77,6 +77,13 @@ class HackApplication implements ApplicationRunner {
 
   @Autowired
   GrouperService grouperService
+
+  void queryRoles() throws Exception {
+    String rolesStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:roles'
+    GetGroupsResults rolesResult = grouperService.querySubtree(testAdminUhuuid, rolesStem, false)
+    log.error "raw roles result: ${rolesResult}"
+    log.error "raw roles dump: ${rolesResult.dump()}"
+  }
 
   void querySeparateSubtrees() throws Exception {
     String rolesStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:roles'

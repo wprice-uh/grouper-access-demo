@@ -72,6 +72,7 @@ class GrouperService {
     ObjectMapper om = new ObjectMapper()
     om.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false)
     om.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true)
+    om.configure(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS, true)
 
     om.readValue(rawBody, GetGroupsResults)
   }
