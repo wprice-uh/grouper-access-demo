@@ -8,10 +8,8 @@ import org.springframework.http.RequestEntity
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
-import com.fasterxml.jackson.databind.DeserializationFeature
-import com.fasterxml.jackson.databind.ObjectMapper
 
-import edu.hawaii.its.hack.grouper.json.GetGroupsResults
+import edu.hawaii.its.hack.grouper.json.GroupResults
 
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j
@@ -63,18 +61,11 @@ class GrouperService {
         .body(queryJson)
   }
 
-  GetGroupsResults querySubtree(String uhuuid, String stem, boolean recurse) {
+  GroupResults querySubtree(String uhuuid, String stem, boolean recurse) {
     RequestEntity<String> rolesEntity = stemEntity(uhuuid, stem, recurse)
 
-    ResponseEntity<String> response = grouperTemplate.exchange(rolesEntity, String)
-    String rawBody = response.getBody()
-
-    ObjectMapper om = new ObjectMapper()
-    om.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false)
-    om.configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true)
-    om.configure(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS, true)
-
-    om.readValue(rawBody, GetGroupsResults)
+    ResponseEntity<GroupResults> response = grouperTemplate.exchange(rolesEntity, GroupResults)
+    response.body
   }
 }
 

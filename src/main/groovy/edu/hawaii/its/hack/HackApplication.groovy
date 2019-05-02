@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.util.StopWatch
 
 import edu.hawaii.its.hack.grouper.GrouperService
-import edu.hawaii.its.hack.grouper.json.GetGroupsResults
+import edu.hawaii.its.hack.grouper.json.GroupResults
 
 import groovy.util.logging.Slf4j
 
@@ -80,7 +80,7 @@ class HackApplication implements ApplicationRunner {
 
   void queryRoles() throws Exception {
     String rolesStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:roles'
-    GetGroupsResults rolesResult = grouperService.querySubtree(testAdminUhuuid, rolesStem, false)
+    GroupResults rolesResult = grouperService.querySubtree(testAdminUhuuid, rolesStem, false)
     log.error "raw roles result: ${rolesResult}"
     log.error "raw roles dump: ${rolesResult.dump()}"
   }
@@ -89,11 +89,11 @@ class HackApplication implements ApplicationRunner {
     String rolesStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:roles'
     String formsStem = 'hawaii.edu:custom:uhsystem:its:mis:forms-for-onbase:forms'
 
-    GetGroupsResults rolesResult = grouperService.querySubtree(testAdminUhuuid, rolesStem, false)
+    GroupResults rolesResult = grouperService.querySubtree(testAdminUhuuid, rolesStem, false)
     log.error "raw roles result: ${rolesResult}"
     log.error "raw roles dump: ${rolesResult.dump()}"
 
-    GetGroupsResults formsResult = grouperService.querySubtree(testAdminUhuuid, formsStem, false)
+    GroupResults formsResult = grouperService.querySubtree(testAdminUhuuid, formsStem, false)
     log.error "raw forms result: ${formsResult}"
     log.error "raw forms dump: ${formsResult.dump()}"
   }

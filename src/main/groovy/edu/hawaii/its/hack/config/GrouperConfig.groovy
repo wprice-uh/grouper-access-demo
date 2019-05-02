@@ -13,6 +13,8 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter
 import org.springframework.web.client.ResponseErrorHandler
 import org.springframework.web.client.RestTemplate
+import com.fasterxml.jackson.databind.DeserializationFeature
+import com.fasterxml.jackson.databind.ObjectMapper
 
 import edu.hawaii.its.hack.grouper.GrouperErrorHandler
 
@@ -43,6 +45,16 @@ class GrouperConfig {
   MappingJackson2HttpMessageConverter grouperConverter() {
     new MappingJackson2HttpMessageConverter().tap {
       supportedMediaTypes = [new MediaType("text", "x-json", StandardCharsets.UTF_8)]
+      objectMapper = grouperObjectMapper()
+    }
+  }
+
+  @Bean
+  ObjectMapper grouperObjectMapper() {
+    new ObjectMapper().tap {
+      configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false)
+      configure(DeserializationFeature.UNWRAP_ROOT_VALUE, true)
+      configure(DeserializationFeature.UNWRAP_SINGLE_VALUE_ARRAYS, true)
     }
   }
 

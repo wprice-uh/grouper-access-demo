@@ -10,8 +10,9 @@ import groovy.transform.ToString
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @JsonRootName("WsGetGroupsResults")
-class GetGroupsResults {
-  ResultMetadata resultMetadata
+class GroupResults {
+  @JsonProperty("resultMetadata")
+  ResultMetadata metadata
 
   @JsonProperty("results")
   @JsonDeserialize(converter = GroupContainerConverter)
