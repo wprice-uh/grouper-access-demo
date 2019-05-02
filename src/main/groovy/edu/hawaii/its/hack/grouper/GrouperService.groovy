@@ -62,7 +62,7 @@ class GrouperService {
   GrouperResult querySubtree(String uhuuid, String stem, boolean recurse) {
     RequestEntity<GrouperResult> rolesEntity = stemEntity(uhuuid, stem, recurse)
 
-    ResponseEntity<GrouperResult> response = grouperTemplate.exchange(rolesEntity, GrouperResult) as ResponseEntity<GrouperResult>
+    ResponseEntity<GrouperResult> response = grouperTemplate.exchange(rolesEntity, GrouperResult)
     response.getBody()
   }
 }
