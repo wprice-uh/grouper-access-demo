@@ -8,7 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest
 import edu.hawaii.its.hack.fob.GroupService
 
 import groovy.util.logging.Slf4j
-import spock.lang.Ignore
 import spock.lang.Specification
 
 @Slf4j
@@ -49,9 +48,7 @@ class GroupServiceSpec extends Specification {
     roles == []
   }
 
-  // UNF: need to make service stop treating nonexistent-user as an error
   @Test
-  @Ignore
   void 'nonexistent user has no roles'() {
     when:
     List<String> roles = gs.getRolesByUhuuid(nonexistentUhuuid)
@@ -80,9 +77,7 @@ class GroupServiceSpec extends Specification {
     forms == []
   }
 
-  // UNF: need to make service stop treating nonexistent-user as an error
   @Test
-  @Ignore
   void 'nonexistent user has no forms'() {
     when:
     List<String> forms = gs.getFormsByUhuuid(nonexistentUhuuid)

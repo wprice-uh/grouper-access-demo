@@ -38,8 +38,6 @@ class HackApplication implements ApplicationRunner {
 
   // UNF: need to actively investigate pooling, especially for the two-query version
 
-  // UNF: need to intentionally create some errors and then write code to handle (converting) them
-
   @Override
   void run(ApplicationArguments args) throws Exception {
     queryRoles()
@@ -53,8 +51,8 @@ class HackApplication implements ApplicationRunner {
     List<String> roles2 = gs.getRolesByUhuuid(irrelevantUhuuid)
     log.error "roles(irrelevant)=${roles2}"
 
-    // UNF: List<String> roles3 = gs.getRolesByUhuuid(nonexistentUhuuid)
-    // log.error "roles(nonexistent)=${roles3}"
+    List<String> roles3 = gs.getRolesByUhuuid(nonexistentUhuuid)
+    log.error "roles(nonexistent)=${roles3}"
   }
 
   void queryForms() throws Exception {
@@ -64,7 +62,7 @@ class HackApplication implements ApplicationRunner {
     List<String> forms2 = gs.getFormsByUhuuid(irrelevantUhuuid)
     log.error "forms(irrelevant)=${forms2}"
 
-    // UNF: List<String> forms3 = gs.getFormsByUhuuid(nonexistentUhuuid)
-    // log.error "forms(nonexistent)=${forms3}"
+    List<String> forms3 = gs.getFormsByUhuuid(nonexistentUhuuid)
+    log.error "forms(nonexistent)=${forms3}"
   }
 }
