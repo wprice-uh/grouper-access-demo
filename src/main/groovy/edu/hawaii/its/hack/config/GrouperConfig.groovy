@@ -20,6 +20,9 @@ import edu.hawaii.its.hack.grouper.GrouperErrorHandler
 
 import groovy.util.logging.Slf4j
 
+/**
+ * Grouper-related context configuration
+ */
 @Slf4j
 @Configuration
 class GrouperConfig {
@@ -31,7 +34,7 @@ class GrouperConfig {
 
   @Bean
   RestTemplate grouperTemplate(RestTemplateBuilder builder) {
-    log.error "instantiating grouperTemplate"
+    log.debug 'instantiating grouperTemplate'
 
     builder
         .basicAuthentication(grouperUsername, grouperPassword)
@@ -44,7 +47,7 @@ class GrouperConfig {
   @Bean
   MappingJackson2HttpMessageConverter grouperConverter() {
     new MappingJackson2HttpMessageConverter().tap {
-      supportedMediaTypes = [new MediaType("text", "x-json", StandardCharsets.UTF_8)]
+      supportedMediaTypes = [new MediaType('text', 'x-json', StandardCharsets.UTF_8)]
       objectMapper = grouperObjectMapper()
     }
   }
@@ -60,7 +63,7 @@ class GrouperConfig {
 
   @Bean
   ResponseErrorHandler grouperErrorHandler() {
-    log.error "instantiating grouperErrorHandler"
+    log.debug 'instantiating grouperErrorHandler'
 
     new GrouperErrorHandler()
   }
@@ -69,7 +72,7 @@ class GrouperConfig {
   // the compiler was getting confused
   @Bean
   Supplier<ClientHttpRequestFactory> grouperRequestFactorySupplier() {
-    log.error "instantiating grouperRequestFactorySupplier"
+    log.debug 'instantiating grouperRequestFactorySupplier'
 
     new Supplier() {
       @Override
@@ -81,7 +84,7 @@ class GrouperConfig {
 
   @Bean
   HttpComponentsClientHttpRequestFactory grouperConnectionPoolingFactory() {
-    log.error "instantiating grouperConnectionPoolingFactory"
+    log.debug 'instantiating grouperConnectionPoolingFactory'
 
     new HttpComponentsClientHttpRequestFactory()
   }

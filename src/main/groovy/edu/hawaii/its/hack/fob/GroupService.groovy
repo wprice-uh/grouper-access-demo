@@ -7,6 +7,9 @@ import org.springframework.stereotype.Component
 import edu.hawaii.its.hack.grouper.GrouperService
 import edu.hawaii.its.hack.grouper.json.GroupResults
 
+/**
+ * Higher-level wrapper for GrouperService group-membership queries
+ */
 @Component
 class GroupService {
   @Value("\${fob.grouper.base}")

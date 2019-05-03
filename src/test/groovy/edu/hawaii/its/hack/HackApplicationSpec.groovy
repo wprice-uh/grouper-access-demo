@@ -6,6 +6,7 @@ import org.springframework.boot.test.context.SpringBootTest
 
 import groovy.util.logging.Slf4j
 import spock.lang.Specification
+
 @SpringBootTest
 @Slf4j
 class HackApplicationSpec extends Specification {

@@ -7,14 +7,18 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize
 
 import groovy.transform.ToString
 
+/**
+ * json model class, root of the tree returned by invoking grouper's
+ * getGroups rest api
+ */
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-@JsonRootName("WsGetGroupsResults")
+@JsonRootName('WsGetGroupsResults')
 class GroupResults {
-  @JsonProperty("resultMetadata")
+  @JsonProperty('resultMetadata')
   ResultMetadata metadata
 
-  @JsonProperty("results")
+  @JsonProperty('results')
   @JsonDeserialize(converter = GroupContainerConverter)
   List<Group> groups
 }

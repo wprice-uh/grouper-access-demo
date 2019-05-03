@@ -11,6 +11,9 @@ import edu.hawaii.its.hack.fob.GroupService
 
 import groovy.util.logging.Slf4j
 
+/**
+ * Application context root for grouper-hack application
+ */
 @Slf4j
 @SpringBootApplication
 class HackApplication implements ApplicationRunner {
