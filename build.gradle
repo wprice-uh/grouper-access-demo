@@ -1,5 +1,10 @@
+buildscript {
+  ext {
+    spockVersion = '1.3-RC1-groovy-2.5'
+  }
+}
 plugins {
-	id 'org.springframework.boot' version '2.1.4.RELEASE'
+  id 'org.springframework.boot' version '2.1.4.RELEASE'
 }
 
 apply plugin: 'groovy'
@@ -9,20 +14,22 @@ apply plugin: 'io.spring.dependency-management'
 apply plugin: 'idea'
 
 repositories {
-	mavenCentral()
+  mavenCentral()
 }
 
 dependencies {
-	implementation 'org.codehaus.groovy:groovy-all:2.5.5'
+  implementation 'org.codehaus.groovy:groovy-all:2.5.5'
 
-	implementation 'org.springframework.boot:spring-boot-starter'
-	implementation 'org.springframework:spring-web'
+  implementation 'org.springframework.boot:spring-boot-starter'
+  implementation 'org.springframework:spring-web'
 
   implementation 'org.apache.httpcomponents:httpclient'
 
-	implementation 'com.fasterxml.jackson.core:jackson-databind'
+  implementation 'com.fasterxml.jackson.core:jackson-databind'
 
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation 'org.springframework.boot:spring-boot-starter-test'
+  testImplementation "org.spockframework:spock-core:${spockVersion}"
+  testImplementation "org.spockframework:spock-spring:${spockVersion}"
 }
 
 /* project settings */
