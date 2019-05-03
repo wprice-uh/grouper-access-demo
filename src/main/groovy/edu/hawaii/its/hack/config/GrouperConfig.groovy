@@ -62,7 +62,7 @@ class GrouperConfig {
   ResponseErrorHandler grouperErrorHandler() {
     log.error "instantiating grouperErrorHandler"
 
-    new GrouperErrorHandler()
+    new GrouperErrorHandler(grouperObjectMapper())
   }
 
   // had to create a supplier to wrap the connectionPoolingFactory because

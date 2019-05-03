@@ -32,7 +32,7 @@ class HackApplication implements ApplicationRunner {
 
   @Override
   void run(ApplicationArguments args) throws Exception {
-    queryRoles()
+    queryNonexistentUser()
   }
 
   void timingRun(ApplicationArguments args) throws Exception {
