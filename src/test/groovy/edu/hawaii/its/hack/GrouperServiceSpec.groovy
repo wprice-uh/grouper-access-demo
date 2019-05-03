@@ -2,26 +2,45 @@ package edu.hawaii.its.hack
 
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 
 import edu.hawaii.its.hack.grouper.GrouperService
+import edu.hawaii.its.hack.grouper.json.GroupResults
 
 import groovy.util.logging.Slf4j
 import spock.lang.Specification
 
-@SpringBootTest
 @Slf4j
+@SpringBootTest
 class GrouperServiceSpec extends Specification {
+  @Value("\${test.enrolled.uhuuid}")
+  String enrolledUhuuid
+
+  @Value("\${test.informed.uhuuid}")
+  String informedUhuuid
+
+  @Value("\${test.irrelevant.uhuuid}")
+  String irrelevantUhuuid
+
+  @Value("\${test.nonexistent.uhuuid}")
+  String nonexistentUhuuid
+
+  @Value("\${fob.grouper.roles}")
+  String fobRolesStem
+
   @Autowired
   GrouperService gs
 
+  /* boundary conditions */
+
   @Test
-  void "testing spring initialization"() {
-    log.info "entering \'${specificationContext.currentIteration.name}\'"
+  void 'invalid query'() {
+    when:
+    GroupResults errResult = gs.querySubtree(null, fobRolesStem)
 
-    expect:
-    gs != null
-
-    log.info "exiting \'${specificationContext.currentIteration.name}\'"
+    then:
+    errResult
+    // UNF: other assertions
   }
 }

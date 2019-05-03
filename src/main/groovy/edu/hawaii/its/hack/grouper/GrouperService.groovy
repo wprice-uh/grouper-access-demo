@@ -26,7 +26,7 @@ class GrouperService {
     this.grouperTemplate = grouperTemplate
   }
 
-  static String stemQuery(String uhuuid, String stemName, boolean recurse) {
+  private static String stemQuery(String uhuuid, String stemName, boolean recurse) {
     // creating aliases for variables in the query
     def nameKey = 'stemName'
     def scopeKey = 'stemScope'
@@ -50,10 +50,10 @@ class GrouperService {
     JsonOutput.toJson(queryMap)
   }
 
-  RequestEntity<String> stemEntity(String uhuuid, String stemName, boolean recurse) {
-    String queryJson = stemQuery(uhuuid, stemName, recurse)
+  private RequestEntity<String> stemEntity(String uhuuid, String stemName) {
+    String queryJson = stemQuery(uhuuid, stemName, false)
 
-    URI subjectUri = new URL("${grouperUrl}/v2_2_200/subjects").toURI()
+    URI subjectUri = new URL("${grouperUrl}/subjects").toURI()
 
     RequestEntity
         .post(subjectUri)
@@ -61,8 +61,8 @@ class GrouperService {
         .body(queryJson)
   }
 
-  GroupResults querySubtree(String uhuuid, String stem, boolean recurse) {
-    RequestEntity<String> rolesEntity = stemEntity(uhuuid, stem, recurse)
+  GroupResults querySubtree(String uhuuid, String stem) {
+    RequestEntity<String> rolesEntity = stemEntity(uhuuid, stem)
 
     ResponseEntity<GroupResults> response = grouperTemplate.exchange(rolesEntity, GroupResults)
     response.body

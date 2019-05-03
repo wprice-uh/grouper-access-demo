@@ -23,7 +23,6 @@ root(INFO, ['CONSOLE', 'LOGFILE'])
 // override log levels
 logger('edu.hawaii', DEBUG)
 logger('org.springframework.web', DEBUG)
-logger('com.fasterxml.jackson', DEBUG)
 
 // enable debugging for web components
 logger('web', DEBUG)
