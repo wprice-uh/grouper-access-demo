@@ -1,5 +1,7 @@
 buildscript {
   ext {
+    codenarcVersion = '1.3'
+    groovyVersion = '2.5.5'
     spockVersion = '1.3-RC1-groovy-2.5'
   }
 }
@@ -14,18 +16,21 @@ apply plugin: 'io.spring.dependency-management'
 // to allow configuring idea to auto-download sources and javadocs
 apply plugin: 'idea'
 
+// tasks: narc, codenarcMain, codenarcTest, codenarcIntegrationTest
+apply plugin: 'codenarc'
+
 repositories {
   mavenCentral()
 }
 
 dependencies {
-  implementation 'org.codehaus.groovy:groovy-all:2.5.5'
+  codenarc "org.codehaus.groovy:groovy-all:${groovyVersion}"
+  codenarc "org.codenarc:CodeNarc:${codenarcVersion}"
 
+  implementation "org.codehaus.groovy:groovy-all:${groovyVersion}"
   implementation 'org.springframework.boot:spring-boot-starter'
   implementation 'org.springframework:spring-web'
-
   implementation 'org.apache.httpcomponents:httpclient'
-
   implementation 'com.fasterxml.jackson.core:jackson-databind'
 
   testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -107,3 +112,41 @@ idea {
     downloadSources = true
   }
 }
+
+/* codenarc config */
+def narcIgnore = false
+codenarc {
+  config = resources.text.fromFile('config/codenarc/MainConfig.groovy')
+
+  ignoreFailures = narcIgnore
+}
+codenarcTest {
+  config = resources.text.fromFile('config/codenarc/TestConfig.groovy')
+
+  ignoreFailures = narcIgnore
+}
+codenarcTest.mustRunAfter codenarcMain
+
+//noinspection GroovyAssignabilityCheck
+task codenarc {
+  description = 'Runs codenarc on all project source files'
+  group = 'verification'
+
+  dependsOn codenarcMain, codenarcTest
+}
+
+// give *all* codenarc tasks access to the union of *all*
+// compilationClasspaths, which is required by some enhanced rules
+tasks.withType(CodeNarc) {
+  compilationClasspath =
+      sourceSets.main.compileClasspath +
+      sourceSets.test.compileClasspath
+}
+
+// wrapper task which runs codenarc on all phases before reporting failures
+task narc {
+  doFirst { narcIgnore = true }
+
+  finalizedBy codenarcMain, codenarcTest
+}
+
