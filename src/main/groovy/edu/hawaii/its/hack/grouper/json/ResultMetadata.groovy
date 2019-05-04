@@ -1,5 +1,8 @@
 package edu.hawaii.its.hack.grouper.json
 
+import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize
+
 import groovy.transform.ToString
 
 /**
@@ -8,6 +11,10 @@ import groovy.transform.ToString
 @ToString
 class ResultMetadata {
   String resultCode
+
+  @JsonProperty(required = false)
   String resultMessage
-  String success
+
+  @JsonDeserialize(converter = StringBooleanConverter)
+  boolean success
 }

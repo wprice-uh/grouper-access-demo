@@ -47,6 +47,12 @@ class HackApplication implements ApplicationRunner {
     if (!env.activeProfiles.contains('testing')) {
       queryRoles()
       queryForms()
+
+      try {
+        queryInvalid()
+      } catch (Exception e) {
+        log.error('explicit exception thrown from queryInvalid', e)
+      }
     }
   }
 
@@ -70,5 +76,9 @@ class HackApplication implements ApplicationRunner {
 
     List<String> forms3 = gs.getFormsByUhuuid(nonexistentUhuuid)
     log.error "forms(nonexistent)=${forms3}"
+  }
+
+  void queryInvalid() throws Exception {
+    gs.getFormsByUhuuid(null)
   }
 }

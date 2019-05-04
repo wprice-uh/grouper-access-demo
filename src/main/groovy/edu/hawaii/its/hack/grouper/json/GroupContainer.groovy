@@ -6,11 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import groovy.transform.ToString
 
 /**
- * json model class, used internally by {@link GroupContainerConverter}
+ * json model class
  */
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 class GroupContainer {
+  @JsonProperty('resultMetadata')
+  ResultMetadata metadata
+
   @JsonProperty('wsGroups')
   List<Group> groups
 }

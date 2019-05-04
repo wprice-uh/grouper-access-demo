@@ -26,11 +26,11 @@ class GroupService {
 
   List<String> getRolesByUhuuid(String uhuuid) {
     GroupResults result = grouperService.querySubtree(uhuuid, fobRolesStem)
-    result.groups*.extension ?: []
+    result.groupContainer.groups*.extension ?: []
   }
 
   List<String> getFormsByUhuuid(String uhuuid) {
     GroupResults result = grouperService.querySubtree(uhuuid, fobFormsStem)
-    result.groups*.extension ?: []
+    result.groupContainer.groups*.extension ?: []
   }
 }
