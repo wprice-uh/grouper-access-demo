@@ -99,6 +99,9 @@ bootRun {
   // suppress groovy-related access warnings
   jvmArgs = groovyJvmArgs
 
+  // use 'dev' profile
+  systemProperty 'spring.profiles.active', 'dev'
+
   // allow live reloading of changed resources
   sourceResources sourceSets.main
 
@@ -148,5 +151,19 @@ task narc {
   doFirst { narcIgnore = true }
 
   finalizedBy codenarcMain, codenarcTest
+}
+
+/* testing config */
+test {
+  // specifying spring.profile 'testing' to make logging behave as desired;
+  // spring itself isn't active during unit tests
+  systemProperty 'spring.profiles.active', 'testing'
+
+  // suppress groovy-related access warnings
+  jvmArgs = groovyJvmArgs
+
+  // force tests to always re-execute
+  outputs.upToDateWhen { false }
+  dependsOn removeLogfiles
 }
 

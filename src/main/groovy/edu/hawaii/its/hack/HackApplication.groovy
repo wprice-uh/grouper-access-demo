@@ -6,6 +6,7 @@ import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.core.env.Environment
 
 import edu.hawaii.its.hack.fob.GroupService
 
@@ -32,6 +33,9 @@ class HackApplication implements ApplicationRunner {
   @Autowired
   GroupService gs
 
+  @Autowired
+  Environment env
+
   static void main(String[] args) {
     SpringApplication.run(HackApplication, args)
   }
@@ -40,8 +44,10 @@ class HackApplication implements ApplicationRunner {
 
   @Override
   void run(ApplicationArguments args) throws Exception {
-    queryRoles()
-    queryForms()
+    if (!env.activeProfiles.contains('testing')) {
+      queryRoles()
+      queryForms()
+    }
   }
 
   void queryRoles() throws Exception {
