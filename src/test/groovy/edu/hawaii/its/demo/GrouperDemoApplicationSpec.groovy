@@ -1,4 +1,4 @@
-package edu.hawaii.its.hack
+package edu.hawaii.its.demo
 
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -9,9 +9,9 @@ import spock.lang.Specification
 
 @SpringBootTest
 @Slf4j
-class HackApplicationSpec extends Specification {
+class GrouperDemoApplicationSpec extends Specification {
   @Autowired
-  HackApplication application
+  GrouperDemoApplication application
 
   @Test
   void "testing spring initialization"() {

@@ -2,7 +2,7 @@
 // statusListener(OnConsoleStatusListener)
 
 String logDir = 'target/logs'
-String logName = 'hack'
+String logName = 'grouper-access-demo'
 
 String layoutPattern = '%date %5level %property{PID} --- [%15.15thread] %logger : %m%n'
 

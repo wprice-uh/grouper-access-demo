@@ -1,4 +1,4 @@
-package edu.hawaii.its.hack.grouper
+package edu.hawaii.its.demo.grouper
 
 import java.nio.charset.StandardCharsets
 
@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Service
 import org.springframework.web.client.RestTemplate
 
-import edu.hawaii.its.hack.grouper.json.GroupResults
+import edu.hawaii.its.demo.grouper.json.GroupResults
 
 import groovy.json.JsonOutput
 import groovy.util.logging.Slf4j

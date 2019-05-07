@@ -1,11 +1,11 @@
-package edu.hawaii.its.hack
+package edu.hawaii.its.demo
 
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 
-import edu.hawaii.its.hack.fob.GroupService
+import edu.hawaii.its.demo.fob.GroupService
 
 import groovy.util.logging.Slf4j
 import spock.lang.Specification

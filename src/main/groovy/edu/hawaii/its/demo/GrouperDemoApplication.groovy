@@ -1,4 +1,4 @@
-package edu.hawaii.its.hack
+package edu.hawaii.its.demo
 
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
@@ -8,16 +8,16 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.core.env.Environment
 
-import edu.hawaii.its.hack.fob.GroupService
+import edu.hawaii.its.demo.fob.GroupService
 
 import groovy.util.logging.Slf4j
 
 /**
- * Application context root for grouper-hack application
+ * Application context root for grouper-demo application
  */
 @Slf4j
 @SpringBootApplication
-class HackApplication implements ApplicationRunner {
+class GrouperDemoApplication implements ApplicationRunner {
   @Value("\${test.enrolled.uhuuid}")
   String testEnrolledUhuuid
 
@@ -37,7 +37,7 @@ class HackApplication implements ApplicationRunner {
   Environment env
 
   static void main(String[] args) {
-    SpringApplication.run(HackApplication, args)
+    SpringApplication.run(GrouperDemoApplication, args)
   }
 
   // UNF: need to actively investigate pooling, especially for the two-query version

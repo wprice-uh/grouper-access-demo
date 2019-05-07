@@ -50,7 +50,7 @@ buildDir = 'target'
 defaultTasks = ['tasks']
 
 description = """\
-grouper-hack
+grouper-access-demo
 
 working example of using RestTemplate to query grouper
 """

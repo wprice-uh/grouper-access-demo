@@ -1,4 +1,4 @@
-package edu.hawaii.its.hack.config
+package edu.hawaii.its.demo.config
 
 import java.nio.charset.StandardCharsets
 import java.util.function.Supplier
@@ -17,7 +17,7 @@ import org.springframework.web.client.RestTemplate
 import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
 
-import edu.hawaii.its.hack.grouper.GrouperErrorHandler
+import edu.hawaii.its.demo.grouper.GrouperErrorHandler
 
 import groovy.util.logging.Slf4j
 

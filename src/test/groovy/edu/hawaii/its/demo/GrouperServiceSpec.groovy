@@ -1,4 +1,4 @@
-package edu.hawaii.its.hack
+package edu.hawaii.its.demo
 
 import org.junit.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.web.client.HttpServerErrorException
 
-import edu.hawaii.its.hack.grouper.GrouperService
+import edu.hawaii.its.demo.grouper.GrouperService
 
 import groovy.util.logging.Slf4j
 import spock.lang.Specification

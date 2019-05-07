@@ -1,4 +1,4 @@
-package edu.hawaii.its.hack.grouper
+package edu.hawaii.its.demo.grouper
 
 import java.nio.charset.Charset
 import java.util.regex.Matcher
@@ -10,7 +10,7 @@ import org.springframework.web.client.DefaultResponseErrorHandler
 import org.springframework.web.client.HttpServerErrorException
 import com.fasterxml.jackson.databind.ObjectMapper
 
-import edu.hawaii.its.hack.grouper.json.GroupResults
+import edu.hawaii.its.demo.grouper.json.GroupResults
 
 import groovy.util.logging.Slf4j
 

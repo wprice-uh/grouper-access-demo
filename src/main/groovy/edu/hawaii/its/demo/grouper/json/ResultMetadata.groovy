@@ -1,4 +1,4 @@
-package edu.hawaii.its.hack.grouper.json
+package edu.hawaii.its.demo.grouper.json
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize
